@@ -248,6 +248,7 @@ Makefile: ../chess_online.pro ../../../../qt/5.14.2/mingw73_64/mkspecs/win32-g++
 		../../../../qt/5.14.2/mingw73_64/mkspecs/features/qt_config.prf \
 		../../../../qt/5.14.2/mingw73_64/mkspecs/win32-g++/qmake.conf \
 		../../../../qt/5.14.2/mingw73_64/mkspecs/features/spec_post.prf \
+		.qmake.stash \
 		../../../../qt/5.14.2/mingw73_64/mkspecs/features/exclusive_builds.prf \
 		../../../../qt/5.14.2/mingw73_64/mkspecs/features/toolchain.prf \
 		../../../../qt/5.14.2/mingw73_64/mkspecs/features/default_pre.prf \
@@ -277,7 +278,6 @@ Makefile: ../chess_online.pro ../../../../qt/5.14.2/mingw73_64/mkspecs/win32-g++
 		../../../../qt/5.14.2/mingw73_64/lib/Qt5Network.prl \
 		../../../../qt/5.14.2/mingw73_64/lib/Qt5Core.prl \
 		../../../../qt/5.14.2/mingw73_64/lib/qtmain.prl \
-		.qmake.stash \
 		../../../../qt/5.14.2/mingw73_64/mkspecs/features/build_pass.prf \
 		../res.qrc
 	$(QMAKE) -o Makefile ..\chess_online.pro -spec win32-g++ "CONFIG+=debug" "CONFIG+=qml_debug"
@@ -459,6 +459,7 @@ Makefile: ../chess_online.pro ../../../../qt/5.14.2/mingw73_64/mkspecs/win32-g++
 ../../../../qt/5.14.2/mingw73_64/mkspecs/features/qt_config.prf:
 ../../../../qt/5.14.2/mingw73_64/mkspecs/win32-g++/qmake.conf:
 ../../../../qt/5.14.2/mingw73_64/mkspecs/features/spec_post.prf:
+.qmake.stash:
 ../../../../qt/5.14.2/mingw73_64/mkspecs/features/exclusive_builds.prf:
 ../../../../qt/5.14.2/mingw73_64/mkspecs/features/toolchain.prf:
 ../../../../qt/5.14.2/mingw73_64/mkspecs/features/default_pre.prf:
@@ -488,7 +489,6 @@ Makefile: ../chess_online.pro ../../../../qt/5.14.2/mingw73_64/mkspecs/win32-g++
 ../../../../qt/5.14.2/mingw73_64/lib/Qt5Network.prl:
 ../../../../qt/5.14.2/mingw73_64/lib/Qt5Core.prl:
 ../../../../qt/5.14.2/mingw73_64/lib/qtmain.prl:
-.qmake.stash:
 ../../../../qt/5.14.2/mingw73_64/mkspecs/features/build_pass.prf:
 ../res.qrc:
 qmake: FORCE

@@ -11,6 +11,7 @@
 #include <QListWidget>
 #include <QNetworkDatagram>
 #include <QtDebug>
+#include <QMessageBox>
 
 namespace Ui {
 class Server;
@@ -31,10 +32,13 @@ private:
     enum Identify{SERVER, USER};
     Ui::Server *ui;
     bool existServer;
-//    QTcpSocket *tcpSocket;
-//    QTcpServer *server;
     QUdpSocket *udpSocket;
-//    QUdpSocket boardcast;
+    QUdpSocket *receiver;
+    QMap<QString, QHostAddress> mapp; //用户名，
+    QString userName;
+    QHostAddress other;
+    int port;
+    int boardcastMsg(QString a, int port = 10086);
 signals:
 //    void succeedConnect(Identify state, QTcpServer *server, QTcpSocket socket);
 };

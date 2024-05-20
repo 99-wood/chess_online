@@ -1,4 +1,5 @@
 release/board.o
+release/board_online.o
 release/legalpoint.o
 release/main.o
 release/mainwindow.o
@@ -7,6 +8,7 @@ release/server.o
 release/zi.o
 release/qrc_res.o
 release/moc_board.o
+release/moc_board_online.o
 release/moc_legalpoint.o
 release/moc_mainwindow.o
 release/moc_reproduce.o

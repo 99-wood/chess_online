@@ -30,13 +30,13 @@ public:
     QWidget *widget;
     QVBoxLayout *verticalLayout;
     QSpacerItem *verticalSpacer_2;
-    QPushButton *pushButton;
+    QPushButton *enter;
     QSpacerItem *verticalSpacer;
     QWidget *widget_2;
     QHBoxLayout *horizontalLayout;
     QLabel *label;
     QLineEdit *lineEdit;
-    QPushButton *pushButton_2;
+    QPushButton *name;
     QSpacerItem *verticalSpacer_3;
 
     void setupUi(QWidget *Server)
@@ -59,10 +59,10 @@ public:
 
         verticalLayout->addItem(verticalSpacer_2);
 
-        pushButton = new QPushButton(widget);
-        pushButton->setObjectName(QString::fromUtf8("pushButton"));
+        enter = new QPushButton(widget);
+        enter->setObjectName(QString::fromUtf8("enter"));
 
-        verticalLayout->addWidget(pushButton);
+        verticalLayout->addWidget(enter);
 
         verticalSpacer = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
@@ -85,10 +85,10 @@ public:
 
         verticalLayout->addWidget(widget_2);
 
-        pushButton_2 = new QPushButton(widget);
-        pushButton_2->setObjectName(QString::fromUtf8("pushButton_2"));
+        name = new QPushButton(widget);
+        name->setObjectName(QString::fromUtf8("name"));
 
-        verticalLayout->addWidget(pushButton_2);
+        verticalLayout->addWidget(name);
 
         verticalSpacer_3 = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
@@ -106,9 +106,9 @@ public:
     void retranslateUi(QWidget *Server)
     {
         Server->setWindowTitle(QCoreApplication::translate("Server", "Form", nullptr));
-        pushButton->setText(QCoreApplication::translate("Server", "\350\277\233\345\205\245\346\210\277\351\227\264", nullptr));
-        label->setText(QCoreApplication::translate("Server", "\346\210\277\351\227\264\345\220\215", nullptr));
-        pushButton_2->setText(QCoreApplication::translate("Server", "\345\210\233\345\273\272\346\210\277\351\227\264", nullptr));
+        enter->setText(QCoreApplication::translate("Server", "\350\277\233\345\205\245\346\210\277\351\227\264", nullptr));
+        label->setText(QCoreApplication::translate("Server", "\347\224\250\346\210\267\345\220\215", nullptr));
+        name->setText(QCoreApplication::translate("Server", "\345\210\233\345\273\272\346\210\277\351\227\264", nullptr));
     } // retranslateUi
 
 };

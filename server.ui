@@ -34,7 +34,7 @@
        </spacer>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton">
+       <widget class="QPushButton" name="enter">
         <property name="text">
          <string>进入房间</string>
         </property>
@@ -59,7 +59,7 @@
          <item>
           <widget class="QLabel" name="label">
            <property name="text">
-            <string>房间名</string>
+            <string>用户名</string>
            </property>
           </widget>
          </item>
@@ -70,7 +70,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton_2">
+       <widget class="QPushButton" name="name">
         <property name="text">
          <string>创建房间</string>
         </property>
