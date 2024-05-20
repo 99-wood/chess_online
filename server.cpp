@@ -11,7 +11,7 @@ Server::Server(QWidget *parent) :
 //        qDebug() << "Failed to bind UDP socket!";
 //    }
     udpSocket = new QUdpSocket(this);
-    if (!udpSocket->bind(QHostAddress::AnyIPv4, 8080, QUdpSocket::ShareAddress | QUdpSocket::ReuseAddressHint)){
+    if (!udpSocket->bind(QHostAddress::AnyIPv4, 10086, QUdpSocket::ShareAddress | QUdpSocket::ReuseAddressHint)){
         qDebug() << "Failed to bind UDP socket!";
     }
     qDebug() << udpSocket->localAddress().toString();
@@ -19,7 +19,7 @@ Server::Server(QWidget *parent) :
     connect(udpSocket, &QUdpSocket::readyRead, this, &Server::receiveServerMsg);
 //    qDebug() << "ok" << endl;
 
-    QByteArray datagram(udpSocket->localAddress().toString().toUtf8());
+    QByteArray datagram("ok");
     qint64 bytesSent = udpSocket->writeDatagram(datagram.data(), datagram.size(), QHostAddress::Broadcast, 10086);
     qDebug() << bytesSent;
     ui->listWidget->setSelectionMode(QAbstractItemView::SingleSelection); //只可以单选
