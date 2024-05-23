@@ -367,7 +367,9 @@ void Board_online::MoveZi(LegalPoint *id)
 void Board_online::process()
 {
     QNetworkDatagram data = my->receiveDatagram(1024);
+    qDebug() << data.data();
     QStringList msg = QString(data.data()).split(' ');
+    if(msg.size()!=4) return;
     int x1 = 10-msg[0].toInt();
     int y1 = 11-msg[1].toInt();
     int x2 = 10-msg[2].toInt();
