@@ -16,16 +16,12 @@
 #include "zi.h"
 #include "legalpoint.h"
 
-namespace Ui {
-class Board_online;
-}
 
 class Board_online : public QWidget
 {
     Q_OBJECT
 
 private:
-    Ui::Board_online *ui;
     bool redFirst = true;
     const int posx[10] = {0, 40, 120, 200, 280, 360, 440, 520, 600, 680},
         posy[11] = {0, 120, 200, 280, 360, 440, 520, 600, 680, 760, 840};

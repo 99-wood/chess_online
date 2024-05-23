@@ -80,7 +80,8 @@ void Server::receiveServerMsg(){
         if(MyBox.standardButton(MyBox.clickedButton()) == QMessageBox::Yes){
             other = data.senderAddress();
             port = (rand() % 10000) + 10000;
-            boardcastMsg(QString("3 %1").arg(port));
+            QByteArray datagram(QString("3 %1").arg(port).toUtf8());
+            udpSocket->writeDatagram(datagram.data(), datagram.size(), data.senderAddress(), 10086);
             Board_online *newPage = new Board_online(udpSocket,other,port,true,nullptr);
             newPage -> setAttribute(Qt::WA_DeleteOnClose);
             newPage -> show();

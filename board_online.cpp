@@ -88,6 +88,7 @@ int Board_online::GetId(Zi *z)
 void Board_online::setFirst(Country c)
 {
     if(c==red){
+        qDebug() << "YES";
         for(int i = 0; i < zi.size(); ++i){
             if(zi[i]->GetCountry() == c){
                 zi[i]->setEnableSelect(true);
