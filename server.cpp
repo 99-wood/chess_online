@@ -82,7 +82,7 @@ void Server::receiveServerMsg(){
             port = (rand() % 10000) + 10000;
             QByteArray datagram(QString("3 %1").arg(port).toUtf8());
             udpSocket->writeDatagram(datagram.data(), datagram.size(), data.senderAddress(), 10086);
-            Board_online *newPage = new Board_online(udpSocket,other,port,true,nullptr);
+            Board_online *newPage = new Board_online(other,port,true,nullptr);
             newPage -> setAttribute(Qt::WA_DeleteOnClose);
             newPage -> show();
         }
@@ -91,7 +91,7 @@ void Server::receiveServerMsg(){
     else if(msg[0] == "3"){ //同意
         port = msg[1].toInt();
         other = data.senderAddress();
-        Board_online *newPage = new Board_online(udpSocket,other,port,false,nullptr);
+        Board_online *newPage = new Board_online(other,port,false,nullptr);
         newPage -> setAttribute(Qt::WA_DeleteOnClose);
         newPage -> show();
 //        Board *newPage = new Board(nullptr);

@@ -42,7 +42,7 @@ private:
 
 
 public:
-    explicit Board_online(QUdpSocket *my, QHostAddress other, int port, bool enable, QWidget *parent = nullptr);
+    explicit Board_online(QHostAddress other, int port, bool enable, QWidget *parent = nullptr);
     ~Board_online();
     void SetEnableUse(bool flag);
     Zi* GetZiAddress(int a);

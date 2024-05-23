@@ -1,9 +1,11 @@
 #include "board_online.h"
 
-Board_online::Board_online(QUdpSocket *my, QHostAddress other, int port, bool enable, QWidget *parent) :
-    QWidget(parent), my(my), other(other), port(port), enable(enable)
+Board_online::Board_online(QHostAddress other, int port, bool enable, QWidget *parent) :
+    QWidget(parent), other(other), port(port), enable(enable)
 {
     this->setFixedSize(720, 960);
+    my = new QUdpSocket(nullptr);
+    my->bind(port);
     setAutoFillBackground(true);
     QPalette tmp = this -> palette();
     tmp.setBrush(QPalette::Background, QPixmap("://image/board.svg").scaled(
@@ -88,7 +90,6 @@ int Board_online::GetId(Zi *z)
 void Board_online::setFirst(Country c)
 {
     if(c==red){
-        qDebug() << "YES";
         for(int i = 0; i < zi.size(); ++i){
             if(zi[i]->GetCountry() == c){
                 zi[i]->setEnableSelect(true);
@@ -331,7 +332,7 @@ void Board_online::MoveZi(LegalPoint *id)
         tmpFile.write(QString("100 %1\n").arg(ziId).toUtf8());
     }
 
-    sentMsg(QString("%1 %2 %3 %4").arg(selectedZi->Getx()).arg(selectedZi->Gety()).arg(zi->Getx()).arg(zi->Gety()));
+    sentMsg(QString("%1 %2 %3 %4").arg(selectedZi->Getx()).arg(selectedZi->Gety()).arg(id -> Getx()).arg(id -> Gety()));
 
     selectedZi -> Move(id -> Getx(), id -> Gety());
     tmpFile.write(QString("101 %1 %2 %3\n\n").arg(selectedZiId).arg(id -> Getx()).arg(id -> Gety()).toUtf8());
@@ -368,6 +369,7 @@ void Board_online::MoveZi(LegalPoint *id)
 
 void Board_online::process()
 {
+
     QNetworkDatagram data = my->receiveDatagram(1024);
     qDebug() << data.data();
     QStringList msg = QString(data.data()).split(' ');
@@ -422,6 +424,8 @@ void Board_online::process()
 
 int Board_online::sentMsg(QString msg)
 {
+    qDebug()  << "!" << msg;
     QByteArray datagram(msg.toUtf8());
+    qDebug()  << "!" << other << port;
     return my->writeDatagram(datagram.data(), datagram.size(), other, port);
 }
