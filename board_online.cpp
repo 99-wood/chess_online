@@ -3,6 +3,7 @@
 Board_online::Board_online(QUdpSocket *my, QHostAddress other, int port, bool enable, QWidget *parent) :
     QWidget(parent), my(my), other(other), port(port), enable(enable)
 {
+    this->setFixedSize(720, 960);
     setAutoFillBackground(true);
     QPalette tmp = this -> palette();
     tmp.setBrush(QPalette::Background, QPixmap("://image/board.svg").scaled(
