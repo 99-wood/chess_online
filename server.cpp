@@ -34,9 +34,9 @@ Server::Server(QWidget *parent) :
     connect(ui->enter, &QPushButton::clicked, this, [=](){
         QListWidgetItem *currentItem = ui->listWidget->currentItem();
        if (currentItem && (currentItem->text().split('|'))[0] != userName) {
-           boardcastMsg(QString("2 %1").arg(ui->lineEdit->text()));
+           QByteArray datagram(QString("2").toUtf8());
+           udpSocket->writeDatagram(datagram.data(), datagram.size(), QHostAddress(currentItem->text().split('|')[1]), 10086);
        } else {
-
        }
     });
 }
@@ -73,7 +73,7 @@ void Server::receiveServerMsg(){
             }
         }
     }
-    else if(msg[0] == "2"){ //申请
+    else if(msg[0] == "2"){ //接受申请
         QMessageBox MyBox(QMessageBox::NoIcon, "主人申请来啦", QString("%1 发起申请，是否同意？").arg(msg[1]), QMessageBox::Yes|QMessageBox::No);
 //        MyBox.setIconPixmap(QPixmap("://image/hongxiang.svg"));
         MyBox.exec();
@@ -81,15 +81,18 @@ void Server::receiveServerMsg(){
             other = data.senderAddress();
             port = (rand() % 10000) + 10000;
             boardcastMsg(QString("3 %1").arg(port));
-            Board *newPage = new Board(nullptr);
+            Board_online *newPage = new Board_online(udpSocket,other,port,true,nullptr);
             newPage -> setAttribute(Qt::WA_DeleteOnClose);
             newPage -> show();
         }
 
     }
     else if(msg[0] == "3"){ //同意
-        int port = msg[1].toInt();
+        port = msg[1].toInt();
         other = data.senderAddress();
+        Board_online *newPage = new Board_online(udpSocket,other,port,false,nullptr);
+        newPage -> setAttribute(Qt::WA_DeleteOnClose);
+        newPage -> show();
 //        Board *newPage = new Board(nullptr);
 //        newPage -> setAttribute(Qt::WA_DeleteOnClose);
 //        newPage -> show();

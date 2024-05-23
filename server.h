@@ -12,6 +12,7 @@
 #include <QNetworkDatagram>
 #include <QtDebug>
 #include <QMessageBox>
+#include "board_online.h"
 
 namespace Ui {
 class Server;

@@ -46,13 +46,14 @@ Board_online::Board_online(QUdpSocket *my, QHostAddress other, int port, bool en
     zi.push_back(new Zi(this, red, zu, 7, 7));
     zi.push_back(new Zi(this, red, zu, 9, 7));
     zi.push_back(new Zi(this, red, shuai, 5, 10));
-    setFirst(red);
+    setFirst(enable ? red : black);
     for(int i = 0; i < zi.size(); ++i){
         if(zi[i]->GetCountry() == black) continue;
         connect(zi[i], &Zi::Selected, this, &Board_online::SelectZi);
         connect(zi[i], &Zi::UnSelected, this, &Board_online::UnSelectZi);
     }
     connect(my, &QUdpSocket::readyRead, this, &Board_online::process);
+
 }
 
 Board_online::~Board_online()
@@ -85,11 +86,17 @@ int Board_online::GetId(Zi *z)
 
 void Board_online::setFirst(Country c)
 {
-    for(int i = 0; i < zi.size(); ++i){
-        if(zi[i]->GetCountry() == c){
-            zi[i]->setEnableSelect(true);
+    if(c==red){
+        for(int i = 0; i < zi.size(); ++i){
+            if(zi[i]->GetCountry() == c){
+                zi[i]->setEnableSelect(true);
+            }
+            else{
+                zi[i]->setEnableSelect(false);
+            }
         }
-        else{
+    }else{
+        for(int i = 0; i < zi.size(); ++i){
             zi[i]->setEnableSelect(false);
         }
     }
@@ -321,6 +328,9 @@ void Board_online::MoveZi(LegalPoint *id)
         zi -> BeDead();
         tmpFile.write(QString("100 %1\n").arg(ziId).toUtf8());
     }
+
+    sentMsg(QString("%1 %2 %3 %4").arg(selectedZi->Getx()).arg(selectedZi->Gety()).arg(zi->Getx()).arg(zi->Gety()));
+
     selectedZi -> Move(id -> Getx(), id -> Gety());
     tmpFile.write(QString("101 %1 %2 %3\n\n").arg(selectedZiId).arg(id -> Getx()).arg(id -> Gety()).toUtf8());
     tmpFile.close();
@@ -357,6 +367,53 @@ void Board_online::MoveZi(LegalPoint *id)
 void Board_online::process()
 {
     QNetworkDatagram data = my->receiveDatagram(1024);
+    QStringList msg = QString(data.data()).split(' ');
+    int x1 = 10-msg[0].toInt();
+    int y1 = 11-msg[1].toInt();
+    int x2 = 10-msg[2].toInt();
+    int y2 = 11-msg[3].toInt();
+    Zi* _zi1 = GetZi(x1,y1);
+    Zi* _zi2 = GetZi(x2,y2);
+
+
+
+    tmpFile.open(QIODevice::Append);
+    tmpFile.write(QString("%1\n").arg(con++).toUtf8());
+    if(_zi2 != nullptr){
+        _zi2 -> BeDead();
+        tmpFile.write(QString("100 %1\n").arg(GetId(_zi2)).toUtf8());
+    }
+    _zi1 -> Move(x2, y2);
+    tmpFile.write(QString("101 %1 %2 %3\n\n").arg(GetId(_zi1)).arg(x1).arg(y1).toUtf8());
+    tmpFile.close();
+
+    setFirst(red);
+    if(_zi2 != nullptr && _zi2 -> GetArmType() == shuai){
+        if(_zi2 -> GetCountry() == red){
+            QMessageBox MyBox(QMessageBox::NoIcon,"结果","黑方胜，是否保存对局？",QMessageBox::Yes|QMessageBox::No);
+            MyBox.setIconPixmap(QPixmap("://image/heixiang.svg"));
+            MyBox.exec();
+            if(MyBox.standardButton(MyBox.clickedButton()) == QMessageBox::Yes){
+                QString path = QFileDialog::getSaveFileName(this, "保存为", "/", "Chinese Chess Data, ccd(*.ccd)");
+                if(path != ""){
+                    if(QFile::exists(path)) QFile::remove(path);
+                    tmpFile.copy(path);
+                }
+            }
+        }
+        else{
+            QMessageBox MyBox(QMessageBox::NoIcon,"结果","红方胜，是否保存对局？",QMessageBox::Yes|QMessageBox::No);
+            MyBox.setIconPixmap(QPixmap("://image/hongxiang.svg"));
+            MyBox.exec();
+            if(MyBox.standardButton(MyBox.clickedButton()) == QMessageBox::Yes){
+                QString path = QFileDialog::getSaveFileName(this, "保存为", "/", "Chinese Chess Data, ccd(*.ccd)");
+                if(path != ""){
+                    if(QFile::exists(path)) QFile::remove(path);
+                    tmpFile.copy(path);
+                }
+            }
+        }
+    }
 }
 
 int Board_online::sentMsg(QString msg)

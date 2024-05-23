@@ -16,6 +16,7 @@
 #include "zi.h"
 #include "legalpoint.h"
 
+
 class Board_online : public QWidget
 {
     Q_OBJECT
@@ -38,6 +39,7 @@ private:
     QHostAddress other;
     int port;
     bool enable;
+
 
 public:
     explicit Board_online(QUdpSocket *my, QHostAddress other, int port, bool enable, QWidget *parent = nullptr);
