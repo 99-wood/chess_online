@@ -34,7 +34,7 @@ Server::Server(QWidget *parent) :
     connect(ui->enter, &QPushButton::clicked, this, [=](){
         QListWidgetItem *currentItem = ui->listWidget->currentItem();
        if (currentItem && (currentItem->text().split('|'))[0] != userName) {
-           QByteArray datagram(QString("2").toUtf8());
+           QByteArray datagram(QString("2 %1").arg(currentItem->text().split('|')[1]).toUtf8());
            udpSocket->writeDatagram(datagram.data(), datagram.size(), QHostAddress(currentItem->text().split('|')[1]), 10086);
        } else {
        }
